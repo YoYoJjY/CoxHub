@@ -1,0 +1,343 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local UserInputService = game:GetService("UserInputService")
+
+-- Function to display a notification
+local function showNotification()
+    local screenGui = Instance.new("ScreenGui", player.PlayerGui)
+
+    -- Background Frame
+    local backgroundFrame = Instance.new("Frame", screenGui)
+    backgroundFrame.Size = UDim2.new(1, 0, 1, 0)
+    backgroundFrame.Position = UDim2.new(0, 0, 0, 0)
+    backgroundFrame.BackgroundColor3 = Color3.new(0, 0, 0) -- Black background
+    backgroundFrame.BackgroundTransparency = 0.5 -- Slightly transparent
+
+    -- Text Label
+    local textLabel = Instance.new("TextLabel", backgroundFrame)
+    textLabel.Size = UDim2.new(0.5, 0, 0.1, 0)
+    textLabel.Position = UDim2.new(0.25, 0, 0.45, 0)
+    textLabel.Text = "Script made by Cox\nDiscord: Prodbyfaith"
+    textLabel.TextColor3 = Color3.fromRGB(255, 0, 255) -- Purple color
+    textLabel.BackgroundTransparency = 1
+    textLabel.TextScaled = true
+    textLabel.TextWrapped = true
+    textLabel.Font = Enum.Font.SourceSansBold
+
+    -- Add the sound
+    local sound = Instance.new("Sound", screenGui)
+    sound.SoundId = "rbxassetid://1845376814" -- Replace with your sound ID
+    sound:Play() -- Play the sound
+
+    -- Fade out effect
+    wait(3)
+    for i = 0, 1, 0.1 do
+        backgroundFrame.BackgroundTransparency = i
+        textLabel.TextTransparency = i
+        sound.Volume = 1 - i -- Fade out the sound
+        wait(0.1)
+    end
+    screenGui:Destroy() -- Remove the notification after fading out
+end
+
+-- Call the function to show the notification
+showNotification()
+
+-- Create the ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "CoxGui"
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Create key input frame
+local keyInputFrame = Instance.new("Frame")
+keyInputFrame.Size = UDim2.new(0, 300, 0, 200) -- Size of the key input frame
+keyInputFrame.Position = UDim2.new(0.5, -150, 0.5, -100) -- Centered
+keyInputFrame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+keyInputFrame.BorderSizePixel = 0
+keyInputFrame.Parent = screenGui
+
+-- Add rounded corners to the key input frame
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 12)
+corner.Parent = keyInputFrame
+
+-- Title for key input
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Text = "Enter Key Here"
+titleLabel.Size = UDim2.new(1, 0, 0, 50)
+titleLabel.BackgroundColor3 = Color3.fromRGB(100, 0, 200)
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.Font = Enum.Font.SourceSansBold
+titleLabel.TextScaled = true
+titleLabel.Parent = keyInputFrame
+
+-- TextBox for key input
+local keyInputBox = Instance.new("TextBox")
+keyInputBox.Size = UDim2.new(0.8, 0, 0, 50)
+keyInputBox.Position = UDim2.new(0.1, 0, 0.3, 0)
+keyInputBox.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+keyInputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+keyInputBox.Font = Enum.Font.SourceSans
+keyInputBox.TextScaled = true
+keyInputBox.PlaceholderText = "Type your key here!"
+keyInputBox.Parent = keyInputFrame
+
+-- Check button
+local checkButton = Instance.new("TextButton")
+checkButton.Text = "Check"
+checkButton.Size = UDim2.new(0.3, 0, 0, 50)
+checkButton.Position = UDim2.new(0.35, 0, 0.6, 0)
+checkButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Green button
+checkButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+checkButton.Font = Enum.Font.SourceSansBold
+checkButton.TextScaled = true
+checkButton.Parent = keyInputFrame
+
+-- Create the main frame
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 400, 0, 500)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
+mainFrame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+mainFrame.BorderSizePixel = 0
+mainFrame.Visible = false -- Start hidden
+mainFrame.Parent = screenGui
+
+-- Add rounded corners to the main frame
+local cornerMain = Instance.new("UICorner")
+cornerMain.CornerRadius = UDim.new(0, 12)
+cornerMain.Parent = mainFrame
+
+-- Create the title
+local titleLabelMain = Instance.new("TextLabel")
+titleLabelMain.Text = "The Cox Hub"
+titleLabelMain.Size = UDim2.new(1, 0, 0, 50)
+titleLabelMain.BackgroundColor3 = Color3.fromRGB(100, 0, 200)
+titleLabelMain.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabelMain.Font = Enum.Font.SourceSansBold
+titleLabelMain.TextScaled = true
+titleLabelMain.Parent = mainFrame
+
+-- Function to create buttons
+local function createButton(text, position, script)
+    local button = Instance.new("TextButton")
+    button.Text = text
+    button.Size = UDim2.new(0.9, 0, 0, 50)
+    button.Position = position
+    button.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Font = Enum.Font.SourceSansBold
+    button.TextScaled = true
+    button.Parent = mainFrame
+
+    -- Add rounded corners to the button
+    local buttonCorner = Instance.new("UICorner")
+    buttonCorner.CornerRadius = UDim.new(0, 8)
+    buttonCorner.Parent = button
+
+    button.MouseButton1Click:Connect(function()
+        loadstring(script)()
+    end)
+
+    -- Add a hover effect
+    button.MouseEnter:Connect(function()
+        button.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+    end)
+
+    button.MouseLeave:Connect(function()
+        button.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    end)
+end
+
+-- Invisible script
+local invisibleScript = [[
+    workspace.FallenPartsDestroyHeight = math.huge - math.huge
+    getgenv().FlySpeed = 1 -- default 1
+    getgenv().www = false
+    getgenv().aaa = false
+    getgenv().sss = false
+    getgenv().ddd = false
+    getgenv().qqq = false
+    getgenv().eee = false
+    getgenv().en = false
+    getgenv().ssss = game.Players.LocalPlayer:GetMouse()
+    getgenv().currentcf = nil
+
+    local part = Instance.new("Part")
+    part.Name = "a"
+    part.Anchored = true
+    part.Parent = game.Workspace
+    part.CFrame = CFrame.new(0, -600000, 0)
+
+    -- Key down events to control flying
+    ssss.KeyDown:connect(function(key)
+        if key == "=" then
+            getgenv().FlySpeed = FlySpeed + 1
+        elseif key == "-" then
+            getgenv().FlySpeed = 1
+        elseif key == "w" then
+            getgenv().www = true
+        elseif key == "a" then
+            getgenv().aaa = true
+        elseif key == "s" then
+            getgenv().sss = true
+        elseif key == "d" then
+            getgenv().ddd = true
+        elseif key == "q" then
+            getgenv().qqq = true
+        elseif key == "e" then
+            getgenv().eee = true
+        elseif key == "k" then
+            toggleInvisibility()
+        end
+    end)
+
+    -- Key up events to stop movement
+    ssss.KeyUp:connect(function(key)
+        if key == "w" then
+            getgenv().www = false
+        elseif key == "a" then
+            getgenv().aaa = false
+        elseif key == "s" then
+            getgenv().sss = false
+        elseif key == "d" then
+            getgenv().ddd = false
+        elseif key == "q" then
+            getgenv().qqq = false
+        elseif key == "e" then
+            getgenv().eee = false
+        end
+    end)
+
+    function toggleInvisibility()
+        if getgenv().en then
+            getgenv().en = false
+            game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 0
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = true
+        else
+            getgenv().en = true
+            game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 1
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = false
+        end
+    end
+
+    -- Main loop to control flying and movement
+    while true do
+        wait()
+        if getgenv().www then
+            part.CFrame = part.CFrame + Vector3.new(0, FlySpeed / 10, 0)
+        elseif getgenv().sss then
+            part.CFrame = part.CFrame + Vector3.new(0, -FlySpeed / 10, 0)
+        elseif getgenv().aaa then
+            part.CFrame = part.CFrame + Vector3.new(-FlySpeed / 10, 0, 0)
+        elseif getgenv().ddd then
+            part.CFrame = part.CFrame + Vector3.new(FlySpeed / 10, 0, 0)
+        elseif getgenv().qqq then
+            part.CFrame = part.CFrame + Vector3.new(0, 0, -FlySpeed / 10)
+        elseif getgenv().eee then
+            part.CFrame = part.CFrame + Vector3.new(0, 0, FlySpeed / 10)
+        end
+        if getgenv().en then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 1
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = false
+        end
+    end
+]]
+
+-- Reverse script
+local reverseScript = [[
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local hrp = character:WaitForChild("HumanoidRootPart")
+
+    local originalCFrame = hrp.CFrame
+
+    while true do
+        wait(0.1) -- Adjust as necessary
+        hrp.CFrame = originalCFrame * CFrame.new(0, 0, 5) -- Adjust the direction and speed
+    end
+]]
+
+-- Create buttons for each script
+createButton("Invisible", UDim2.new(0.05, 0, 0.1, 0), invisibleScript)
+createButton("Reverse", UDim2.new(0.05, 0, 0.2, 0), reverseScript)
+createButton("AzureModded", UDim2.new(0.05, 0, 0.3, 0), "loadstring(game:HttpGet('https://raw.githubusercontent.com/Actyrn/Scripts/main/AzureModded'))()")
+createButton("Infinite Yield", UDim2.new(0.05, 0, 0.4, 0), "loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()")
+createButton("System Broken", UDim2.new(0.05, 0, 0.5, 0), "loadstring(game:HttpGet('https://raw.githubusercontent.com/zzzcoder2/sigma2/main/updatedbyz'))()")
+
+-- Create Open/Close Button
+local toggleButton = Instance.new("TextButton")
+toggleButton.Text = "Open"
+toggleButton.Size = UDim2.new(0, 150, 0, 50)
+toggleButton.Position = UDim2.new(0.5, -75, 0.1, 0)
+toggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Green button
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.Font = Enum.Font.SourceSansBold
+toggleButton.TextScaled = true
+toggleButton.Parent = screenGui
+toggleButton.Visible = false -- Initially hidden
+
+-- Toggle button functionality
+toggleButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = not mainFrame.Visible
+    if mainFrame.Visible then
+        toggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Red when open
+        toggleButton.Text = "Exit" -- Change to Exit
+    else
+        toggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Green when closed
+        toggleButton.Text = "Open" -- Change back to Open
+    end
+end)
+
+-- Make the GUI movable
+local dragging
+local dragStart
+local startPos
+
+titleLabelMain.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+-- Check button functionality
+checkButton.MouseButton1Click:Connect(function()
+    if keyInputBox.Text == "coxisdaddy" then
+        keyInputFrame.Visible = false  -- Hide key input frame
+        toggleButton.Visible = true     -- Show the toggle button
+        mainFrame.Visible = false       -- Keep the main frame hidden
+    else
+        keyInputBox.Text = ""           -- Clear the input
+        keyInputBox.PlaceholderText = "Incorrect Bitch Nigga! Try again."
+    end
+end)
+
+-- Create Close Button (NEW)
+local closeButton = Instance.new("TextButton")
+closeButton.Text = "X" -- Red X for closing
+closeButton.Size = UDim2.new(0.15, 0, 0.15, 0) -- Square button
+closeButton.Position = UDim2.new(0.95, 0, -0.05, 0) -- Top right corner
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Red color
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text
+closeButton.Font = Enum.Font.SourceSansBold
+closeButton.TextScaled = true
+closeButton.Parent = keyInputFrame -- Parent it to the keyInputFrame
+
+-- Close button functionality (NEW)
+closeButton.MouseButton1Click:Connect(function()
+  screenGui:Destroy() -- Destroy the entire screenGui
+end)
